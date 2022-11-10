@@ -2,11 +2,19 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 
+// TODO LoginForm.js: Replace the loginUser() functionality imported from the API file with the LOGIN_USER mutation functionality.
 import { loginUser } from '../utils/API';
+
+// import { useMutation } from '@apollo/client';
+// import { LOGIN_USER } from '../utils/mutations';
+
 import Auth from '../utils/auth';
 
-const LoginForm = () => {
+const LoginForm = (props) => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
+  //section added useMutation
+  // const [login, { error, data }] = useMutation(LOGIN_USER);
+
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
@@ -25,6 +33,7 @@ const LoginForm = () => {
       event.stopPropagation();
     }
 
+    //todo
     try {
       const response = await loginUser(userFormData);
 
@@ -39,6 +48,17 @@ const LoginForm = () => {
       console.error(err);
       setShowAlert(true);
     }
+
+    // try {
+    //   const { data } = await login({
+    //     variables: { ...userFormData },
+    //   });
+
+    //   Auth.login(data.login.token);
+    // } catch (e) {
+    //   console.error(e);
+    //   setShowAlert(true);
+    // }
 
     setUserFormData({
       username: '',

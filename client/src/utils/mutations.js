@@ -24,29 +24,29 @@ export const ADD_USER = gql`
   }
 `;
 
-export const ADD_BOOK = gql`
-  mutation addBook($thoughtText: String!) {
-    addBook(bookId: ID!, authors: [String], description: String, image: String, link: String, title: String) {
-      bookId
-      authors,
-      description
-      image
-      link
-      title
-    }
-  }
-`;
+// export const ADD_BOOK = gql`
+//   mutation addBook($thoughtText: String!) {
+//     addBook(bookId: ID!, authors: [String], description: String, image: String, link: String, title: String) {
+//       bookId
+//       authors,
+//       description
+//       image
+//       link
+//       title
+//     }
+//   }
+// `;
 
-export const REMOVE_BOOK = gql`
-  mutation removeBook($userId: ID!, $bookID: ID!) {
-    removeBook(userID: $userId, bookID: $bookID) {
-      _id
-      bookId
-      authors
-      description
-      image
-      link
-      title
-    }
-  }
-`;
+// export const REMOVE_BOOK = gql`
+//   mutation removeBook($userId: ID!, $bookID: ID!) {
+//     removeBook(userID: $userId, bookID: $bookID) {
+//       _id
+//       bookId
+//       authors
+//       description
+//       image
+//       link
+//       title
+//     }
+//   }
+// `;
