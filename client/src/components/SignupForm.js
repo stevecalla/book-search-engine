@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 
-//SignupForm.js: Replace the addUser() functionality imported from the API file with the ADD_USER mutation functionality.
-// import { createUser } from '../utils/API';
-
+//section: SignupForm.js: Replace the addUser() functionality imported from the API file with the ADD_USER mutation functionality.
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../utils/mutations";
 
@@ -16,7 +14,7 @@ const SignupForm = () => {
     email: "",
     password: "",
   });
-  //section
+  //section added useMutation
   // const [addUser, { error, data }] = useMutation(ADD_USER);
   const [addUser, { error }] = useMutation(ADD_USER);
 
@@ -40,6 +38,7 @@ const SignupForm = () => {
       event.stopPropagation();
     }
 
+    //section
     try {
       const { data } = await addUser({
         variables: { ...userFormData },
@@ -122,7 +121,7 @@ const SignupForm = () => {
         </Button>
       </Form>
 
-      {/* show alert if server response is bad */}
+      {/* section: show alert if server response is bad */}
       {error && <Alert
           dismissible
           onClose={() => setShowAlert(false)}

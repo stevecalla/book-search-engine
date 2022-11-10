@@ -38,7 +38,6 @@ const LoginForm = (props) => {
         variables: { ...userFormData },
       });
 
-      console.log(data); //to eliminate the webpack error message
       Auth.login(data.login.token);
     } catch (e) {
       console.error(e);
@@ -93,7 +92,7 @@ const LoginForm = (props) => {
         </Button>
       </Form>
 
-      {/* show alert if server response is bad */}
+      {/* section: show alert if server response is bad */}
       {error && <Alert
           dismissible
           onClose={() => setShowAlert(false)}
