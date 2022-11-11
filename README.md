@@ -45,6 +45,7 @@ This app includes a variety of API routes (see list below). In addition, the fol
 7. `Login`, `Signup`, and `Logout` functionality using a bootstrap modal, jsonwebtoken for authentication and alert messaging for invalid login.
 8. Upon `login` the user then has the ability to save one or more books based on the search results. After saving a book the book is listed on the "see my books" page via a link in the nav bar. On the "saved book" screen a loggedin user has the option to remove (delete) books.
 9. `User` login information is used to `save` books to a specific user rather than expose the user information in the URL via parameters (params).
+10. `Heroku` deployment.
 
 ## Future Enhancements: 
 1. Breakdown into smaller components for readability and reduce duplication (i.e. both the search and save book componennts return a similar bootstrap container that renders books)
@@ -66,6 +67,7 @@ This app includes a variety of API routes (see list below). In addition, the fol
 6. `Apollo/GraphQL`: For GraphQL database query.
 7. `bcrypt`: To encrypt the user password.
 8. `jsonwebtoken/jwt decoe`: For user authentication and token decoding.
+9. `Heroku`: Deployment.
 ---
 
 ## App Preview - WalkThrough Video
