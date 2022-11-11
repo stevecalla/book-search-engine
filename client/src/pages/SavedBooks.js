@@ -10,7 +10,9 @@ import decode from 'jwt-decode';
 import { useQuery } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
 
-// section Instead, use the useQuery() Hook to execute the GET_ME query on load and save it to a variable named userData.
+import { REMOVE_BOOK } from '../utils/mutations';
+import { useMutation } from '@apollo/client';
+import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
   const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -21,17 +23,32 @@ const SavedBooks = () => {
     // variables: { id: '636c6732dd1ce92e610cd132' },
     variables: { id: userId },
   });
-
-  let userData = {};
+  // let userData = {};
   let savedBooks = [];
+
+  const [removeBook, { error }] = useMutation(REMOVE_BOOK);
+
+  const handleDeleteBook = async (bookId) => {
+    try {
+      const { data } = await removeBook({
+        variables: {
+          id: userId,
+          bookId: bookId
+        }
+      })
+      removeBookId(bookId);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   if (loading) {
     return <div>Loading...</div>;
   } else {
     // userData = data;
+    console.log(data)
     savedBooks = data.me[0].savedBooks;
   }
-
   return (
     <>
       <Jumbotron fluid className='text-light bg-dark'>
@@ -54,9 +71,9 @@ const SavedBooks = () => {
                   <Card.Title>{book.title}</Card.Title>
                   <p className='small'>Authors: {book.authors}</p>
                   <Card.Text style={{ height: "500px", overflow: "scroll"}}>{book.description}</Card.Text>
-                  {/* <Button className='btn-block btn-danger' onClick={() => handleDeleteBook(book.bookId)}>
+                  <Button className='btn-block btn-danger' onClick={() => handleDeleteBook(book.bookId)}>
                     Delete this Book!
-                  </Button> */}
+                  </Button>
                 </Card.Body>
               </Card>
             );

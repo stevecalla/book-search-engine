@@ -37,16 +37,15 @@ export const ADD_USER = gql`
 //   }
 // `;
 
-// export const REMOVE_BOOK = gql`
-//   mutation removeBook($userId: ID!, $bookID: ID!) {
-//     removeBook(userID: $userId, bookID: $bookID) {
-//       _id
-//       bookId
-//       authors
-//       description
-//       image
-//       link
-//       title
-//     }
-//   }
-// `;
+export const REMOVE_BOOK = gql`
+  mutation removeBook($id: ID!, $bookId: ID!) {
+    removeBook(_id: $id, bookId: $bookId) {
+      _id
+      savedBooks {
+        title
+        _id
+      }
+    }
+  }
+`;
+
