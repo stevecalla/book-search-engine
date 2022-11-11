@@ -58,8 +58,8 @@ const SearchBooks = () => {
 
   const [addBook] = useMutation(ADD_BOOK);
   const token = Auth.loggedIn() ? Auth.getToken() : null;
-  const user = decode(token);
-  const userId = user.data._id;
+  const user = token && decode(token);
+  const userId = token && user.data._id;
   // create function to handle saving a book to our database
   const handleSaveBook = async (bookId) => {
     // find the book in `searchedBooks` state by the matching id
