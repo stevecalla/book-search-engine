@@ -4,24 +4,29 @@ const { signToken } = require('../utils/auth');
 
 const resolvers = {
   Query: {
-    users: async () => {
+    users: async (parent, args, context) => {
+    // if (context.user) {
       return User.find().populate('books');
+    // }
+    //   throw new AuthenticationError('You need to be logged in!');
     },
-    user: async (parent, { username }) => {
-      return User.findOne({ username }).populate('books');
+    user: async (parent, { email }) => {
+      return User.findOne({ email }).populate('books');
     },
     books: async (parent, { username }) => {
       const params = username ? { username } : {};
       return Book.find(params).sort({ createdAt: -1 });
     },
-    book: async (parent, { bookId }) => {
-      return Book.findOne({ _id: bookId });
-    },
-    me: async (parent, args, context) => {
-      if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate('books');
-      }
-      throw new AuthenticationError('You need to be logged in!');
+    // me: async (parent, args, context) => {
+    //   console.log(context, context.user);
+    //   // if (context.user) {
+    //     // return User.findOne({ _id: "636c6732dd1ce92e610cd132" }).populate('books');
+    //     return User.findOne({ _id: context.user._id }).populate('books');
+    //   // }
+    //   // throw new AuthenticationError('You need to be logged in!');
+    // },
+    me: async (parent, { _id }, context) => {
+        return User.find({ _id }).populate('books');
     },
   },
 
@@ -48,46 +53,39 @@ const resolvers = {
 
       return { token, user };
     },
-    //todo
-    addBook: async (parent, { bookId, authors: [], description, image, link, title }, context) => {
-      if (context.user) {
-        const book = await Book.create({
-          //todo
-          bookId,
-          authors,
-          description,
-          image,
-          link,
-          title,
-          username: context.user.username,
-        });
-
-        await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $addToSet: { books: book._id } }
+    addBook: async (parent, { _id, bookId, authors, description, image, title }, context) => {
+      // if (context.user) {
+        return User.findOneAndUpdate(
+          { _id },
+          { $addToSet: {
+              savedBooks: {
+                bookId: bookId,
+                authors,
+                description,
+                image,
+                title,
+              },
+            },
+          },
+          { new: true }
         );
-
-        return book;
-      }
-      throw new AuthenticationError('You need to be logged in!');
-    },
-    removeBook: async (parent, { bookId }, context) => {
-      if (context.user) {
+     },
+    removeBook: async (parent, { _id, bookId }, context) => {
+      // if (context.user) {
         //todo
-        const book = await Book.findOneAndDelete({
-          _id: bookId,
-          username: context.user.username,
-        });
-
-        await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $pull: { books: book._id } }
+        return User.findOneAndUpdate(
+          { _id },
+          { $pull: {
+              savedBooks: {
+                bookId: bookId
+              },
+            },
+          },
+          { new: true }
         );
-
-        return book;
-      }
-      throw new AuthenticationError('You need to be logged in!');
-    },
+     },
+    //   throw new AuthenticationError('You need to be logged in!');
+    // },
   },
 };
 
