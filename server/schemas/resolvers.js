@@ -4,8 +4,11 @@ const { signToken } = require('../utils/auth');
 
 const resolvers = {
   Query: {
-    users: async () => {
+    users: async (parent, args, context) => {
+    // if (context.user) {
       return User.find().populate('books');
+    // }
+    //   throw new AuthenticationError('You need to be logged in!');
     },
     user: async (parent, { email }) => {
       return User.findOne({ email }).populate('books');
@@ -14,17 +17,17 @@ const resolvers = {
       const params = username ? { username } : {};
       return Book.find(params).sort({ createdAt: -1 });
     },
-    me: async (parent, args, context) => {
-      console.log(context, context.user);
-      // if (context.user) {
-        // return User.findOne({ _id: "636c6732dd1ce92e610cd132" }).populate('books');
-        return User.findOne({ _id: context.user._id }).populate('books');
-      // }
-      // throw new AuthenticationError('You need to be logged in!');
-    },
-    // me: async (parent, { _id }, context) => {
-    //     return User.findOne({ _id }).populate('books');
+    // me: async (parent, args, context) => {
+    //   console.log(context, context.user);
+    //   // if (context.user) {
+    //     // return User.findOne({ _id: "636c6732dd1ce92e610cd132" }).populate('books');
+    //     return User.findOne({ _id: context.user._id }).populate('books');
+    //   // }
+    //   // throw new AuthenticationError('You need to be logged in!');
     // },
+    me: async (parent, { _id }, context) => {
+        return User.find({ _id }).populate('books');
+    },
   },
 
   Mutation: {
