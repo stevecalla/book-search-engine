@@ -27,9 +27,8 @@ const typeDefs = gql`
 
   type Query {
     users: [User]
-    user(username: String!): User
+    user(email: String!): User
     books(username: String): [Book]
-    book(thoughtId: ID!): Book
     me: User
   }
 
@@ -42,3 +41,5 @@ const typeDefs = gql`
 `;
 
 module.exports = typeDefs;
+
+// me: User
