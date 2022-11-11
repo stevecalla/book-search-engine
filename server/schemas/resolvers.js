@@ -53,29 +53,23 @@ const resolvers = {
 
       return { token, user };
     },
-    //todo
-    addBook: async (parent, { bookId, authors: [], description, image, link, title }, context) => {
-      if (context.user) {
-        const book = await Book.create({
-          //todo
-          bookId,
-          authors,
-          description,
-          image,
-          link,
-          title,
-          username: context.user.username,
-        });
-
-        await User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $addToSet: { books: book._id } }
+    addBook: async (parent, { _id, bookId, authors, description, image, title }, context) => {
+      // if (context.user) {
+        return User.findOneAndUpdate(
+          { _id },
+          { $addToSet: {
+              savedBooks: {
+                bookId: bookId,
+                authors,
+                description,
+                image,
+                title,
+              },
+            },
+          },
+          { new: true }
         );
-
-        return book;
-      }
-      throw new AuthenticationError('You need to be logged in!');
-    },
+     },
     removeBook: async (parent, { _id, bookId }, context) => {
       // if (context.user) {
         //todo
@@ -89,7 +83,7 @@ const resolvers = {
           },
           { new: true }
         );
-      }
+     },
     //   throw new AuthenticationError('You need to be logged in!');
     // },
   },

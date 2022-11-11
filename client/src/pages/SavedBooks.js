@@ -26,7 +26,7 @@ const SavedBooks = () => {
   // let userData = {};
   let savedBooks = [];
 
-  const [removeBook, { error }] = useMutation(REMOVE_BOOK);
+  const [removeBook] = useMutation(REMOVE_BOOK);
 
   const handleDeleteBook = async (bookId) => {
     try {
@@ -35,7 +35,10 @@ const SavedBooks = () => {
           id: userId,
           bookId: bookId
         }
-      })
+      });
+
+      console.log(data); //to eliminate console warning
+
       removeBookId(bookId);
     } catch (err) {
       console.log(err);
