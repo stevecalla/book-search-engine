@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
+import { Jumbotron, Container, Col, Form, Button } from 'react-bootstrap';
+import BookList from '../components/BookListSearch';
 
-import Auth from '../utils/auth';
-import { getUserId } from '../utils/getUserId';
+import { getUserId } from '../utils/getUserId';  //get user id from jwt token for db queries/mutations
 
 import { ADD_BOOK } from '../utils/mutations';
 import { useMutation } from '@apollo/client';
@@ -66,10 +66,6 @@ const SearchBooks = () => {
   // get userId from jwt token to use in query/mutation
   let userId = getUserId();
 
-  // const token = Auth.loggedIn() ? Auth.getToken() : null;
-  // const user = token && decode(token);
-  // const userId = token && user.data._id;
-
   // create function to handle saving a book to our database
   const handleSaveBook = async (bookId) => {
     // find the book in `searchedBooks` state by the matching id
@@ -121,56 +117,7 @@ const SearchBooks = () => {
         </Container>
       </Jumbotron>
 
-      <Container>
-        <h2>
-          {searchedBooks.length
-            ? `Viewing ${searchedBooks.length} results:`
-            : 'Search for a book to begin'}
-        </h2>
-        <CardColumns>
-          {searchedBooks.map((book) => {
-            return (
-              <Card key={book.bookId} border='dark'>
-                {book.image ? (
-                  <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' style={{height: "500px", width: "100%", objectFit: "cover", objectPosition: "top", overflow: "scroll"}}/>
-                ) : null}
-                <Card.Body>
-                  <Card.Title className='mb-0'>{book.title}</Card.Title>
-                  <p className='small mb-0'>Authors: {book.authors}</p>
-                  <p className='small mt-0'>Published Date: {book.publishedDate}</p>
-                  <Card.Text style={{ height: "500px", overflow: "scroll"}}>{book.description}</Card.Text>
-                  {Auth.loggedIn() && (
-                    <Button
-                      disabled={savedBookIds?.some((savedBookId) => savedBookId === book.bookId)}
-                      className='btn-block btn-info'
-                      onClick={() => handleSaveBook(book.bookId)}>
-                      {savedBookIds?.some((savedBookId) => savedBookId === book.bookId)
-                        ? 'Book Already Saved!'
-                        : 'Save this Book!'}
-                    </Button>
-                  )}
-                  <div className="d-flex justify-content-between">
-                    <Button 
-                      className="btn-block btn-info mt-1 mr-1" 
-                      size="sm" 
-                      target="_blank"
-                      href={book.infoLink}
-                      >Google Info
-                    </Button>
-                    <Button 
-                      className="btn-block btn-info mt-1 ml-1" 
-                      size="sm" 
-                      target="_blank"
-                      href={book.previewLink}
-                      >Google Preview
-                    </Button>
-                  </div>
-                </Card.Body>
-              </Card>
-            );
-          })}
-        </CardColumns>
-      </Container>
+      <BookList  searchedBooks={searchedBooks} savedBookIds={savedBookIds} handleSaveBook={handleSaveBook} source={"search"}/>
     </>
   );
 };
