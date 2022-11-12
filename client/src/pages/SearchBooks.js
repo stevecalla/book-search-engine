@@ -117,7 +117,7 @@ const SearchBooks = () => {
         </Container>
       </Jumbotron>
 
-      <BookList  searchedBooks={searchedBooks} savedBookIds={savedBookIds} handleSaveBook={handleSaveBook} source={"search"}/>
+      <BookList searchedBooks={searchedBooks} savedBookIds={savedBookIds} handleSaveBook={handleSaveBook} source={"search"}/>
     </>
   );
 };
