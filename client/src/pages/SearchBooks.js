@@ -135,6 +135,7 @@ const SearchBooks = () => {
                   <p className='small mt-0'>Published Date: {book.publishedDate}</p>
                   <Card.Text style={{ height: "500px", overflow: "scroll"}}>{book.description}</Card.Text>
                   {Auth.loggedIn() && (
+                    <>
                     <Button
                       disabled={savedBookIds?.some((savedBookId) => savedBookId === book.bookId)}
                       className='btn-block btn-info'
@@ -143,6 +144,23 @@ const SearchBooks = () => {
                         ? 'Book Already Saved!'
                         : 'Save this Book!'}
                     </Button>
+                    <div className="d-flex justify-content-between">
+                      <Button 
+                        className="btn-block btn-info mt-1 mr-1" 
+                        size="sm" 
+                        target="_blank"
+                        href={book.infoLink}
+                        >Google Info
+                      </Button>
+                      <Button 
+                        className="btn-block btn-info mt-1 ml-1" 
+                        size="sm" 
+                        target="_blank"
+                        href={book.previewLink}
+                        >Google Preview
+                      </Button>
+                    </div>
+                    </>
                   )}
                 </Card.Body>
               </Card>
