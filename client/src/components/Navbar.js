@@ -25,7 +25,7 @@ const AppNavbar = () => {
               <Nav.Link as={Link} to='/' eventKey="1">
                 Search For Books
               </Nav.Link>
-              {/* if user is logged in show saved books and logout */}
+              {/* if user is logged in show saved books & logout nav links else show login/signup modal */}
               {Auth.loggedIn() ? (
                 <>
                   <Nav.Link as={Link} to='/saved' eventKey="2">

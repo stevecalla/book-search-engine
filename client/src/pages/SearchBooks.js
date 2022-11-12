@@ -57,7 +57,7 @@ const SearchBooks = () => {
         infoLink: book.infoLink || "No info link",
       }));
 
-      console.log(bookData);
+      // console.log(bookData);
 
       setSearchedBooks(bookData);
       setSearchInput('');

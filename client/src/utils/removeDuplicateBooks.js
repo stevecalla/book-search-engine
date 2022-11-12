@@ -1,6 +1,3 @@
-import Auth from '../utils/auth';
-import decode from 'jwt-decode';
-
 export const removeDuplicateBooks = (items) => {
   // results above can return duplicate book id; process below removes duplicates
   // when duplicate entries exist reeact returns an error message in the console b/c it can't uniquely identify each item

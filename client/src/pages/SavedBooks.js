@@ -2,7 +2,7 @@ import React from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
 import BookList from '../components/BookListSaved';
 
-import { getUserId } from '../utils/getUserId'; //get user id from jwt token
+import { getUserId  } from '../utils/getUserId'; //get user id from jwt token
 
 import { useQuery } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
@@ -18,7 +18,7 @@ const SavedBooks = () => {
   // setup remove book graphql mutation
   const [removeBook] = useMutation(REMOVE_BOOK);
   
-  // get user saved book info to render to page
+  // get all user saved book info to render to page
   let savedBooks = [];
   const { loading, data } = useQuery(QUERY_ME, {
     // variables: { id: '636c6732dd1ce92e610cd132' },
@@ -28,10 +28,15 @@ const SavedBooks = () => {
   // using loading paramater to wait for response from useQuery QUERY_ME
   if (loading) {
     return <div>Loading...</div>;
-  } else if (userId) {
+  } else if (userId) { //section is this if statement necessary? if userId is valid from token then 
     // userData = data;
     console.log(data)
     savedBooks = data.me[0].savedBooks;
+
+    // if local storage doesn't contain saved books, then set
+    if (!localStorage.getItem('saved_books') && savedBooks.length > 0) {
+      localStorage.setItem('saved_books', JSON.stringify(savedBooks.map(element => element.bookId)));
+    }
   }
 
   // delete book

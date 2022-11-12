@@ -39,12 +39,16 @@ class AuthService {
   login(idToken) {
     // Saves user token to localStorage
     localStorage.setItem('id_token', idToken);
+    // Returns to root url
     window.location.assign('/');
   }
 
   logout() {
     // Clear user token and profile data from localStorage
     localStorage.removeItem('id_token');
+    // Clear saved books from local storage (if user signs in with a different id)
+    // When token expires this happens as well
+    localStorage.removeItem('saved_books');
     // this will reload the page and reset the state of the application
     window.location.assign('/');
   }
