@@ -14,6 +14,9 @@ export const QUERY_ME = gql`
         description
         image
         title
+        infoLink
+        previewLink
+        publishedDate
       }
     }
   }

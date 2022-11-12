@@ -15,19 +15,31 @@ import { useMutation } from '@apollo/client';
 import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
+  // setup remove book graphql mutation
+  const [removeBook] = useMutation(REMOVE_BOOK);
+  
+  // get user id from token
   const token = Auth.loggedIn() ? Auth.getToken() : null;
   const user = token && decode(token);
   const userId = token && user.data._id;
-
+  
+  // get user saved book info to render to page
+  let savedBooks = [];
   const { loading, data } = useQuery(QUERY_ME, {
     // variables: { id: '636c6732dd1ce92e610cd132' },
     variables: { id: userId },
   });
-  // let userData = {};
-  let savedBooks = [];
 
-  const [removeBook] = useMutation(REMOVE_BOOK);
+  // using loading paramater to wait for response from useQuery QUERY_ME
+  if (loading) {
+    return <div>Loading...</div>;
+  } else if (token) {
+    // userData = data;
+    console.log(data)
+    savedBooks = data.me[0].savedBooks;
+  }
 
+  // delete book
   const handleDeleteBook = async (bookId) => {
     try {
       const { data } = await removeBook({
@@ -45,13 +57,6 @@ const SavedBooks = () => {
     }
   }
 
-  if (loading) {
-    return <div>Loading...</div>;
-  } else if (token) {
-    // userData = data;
-    console.log(data)
-    savedBooks = data.me[0].savedBooks;
-  }
   return (
     <>
       <Jumbotron fluid className='text-light bg-dark'>
