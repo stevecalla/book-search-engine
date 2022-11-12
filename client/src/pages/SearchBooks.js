@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
+import { Jumbotron, Container, Col, Form, Button } from 'react-bootstrap';
+import BookList from '../components/BookListSearch';
 
-import Auth from '../utils/auth';
+import { getUserId } from '../utils/getUserId';  //get user id from jwt token for db queries/mutations
 
 import { ADD_BOOK } from '../utils/mutations';
 import { useMutation } from '@apollo/client';
 import { searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
-import decode from 'jwt-decode';
 
 const SearchBooks = () => {
   // create state for holding returned google api data
@@ -45,9 +45,14 @@ const SearchBooks = () => {
         bookId: book.id,
         authors: book.volumeInfo.authors || ['No author to display'],
         title: book.volumeInfo.title,
-        description: book.volumeInfo.description,
-        image: book.volumeInfo.imageLinks?.thumbnail || "https://placehold.jp/16/0000FF/ffffff/300x500.png?text=No%20Image%20Available"
+        description: book.volumeInfo.description || "No description available.",
+        image: book.volumeInfo.imageLinks?.thumbnail || "https://placehold.jp/16/0000FF/ffffff/300x500.png?text=No%20Image%20Available",
+        publishedDate: book.volumeInfo.publishedDate || "No publish date",
+        previewLink: book.volumeInfo.previewLink || "No preview link",
+        infoLink: book.volumeInfo.infoLink || "No info link",
       }));
+
+      console.log(bookData);
 
       setSearchedBooks(bookData);
       setSearchInput('');
@@ -57,13 +62,16 @@ const SearchBooks = () => {
   };
 
   const [addBook] = useMutation(ADD_BOOK);
-  const token = Auth.loggedIn() ? Auth.getToken() : null;
-  const user = token && decode(token);
-  const userId = token && user.data._id;
+
+  // get userId from jwt token to use in query/mutation
+  let userId = getUserId();
+
   // create function to handle saving a book to our database
   const handleSaveBook = async (bookId) => {
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
+
+    console.log(bookToSave);
 
     try {
       const { data } = await addBook({
@@ -109,39 +117,7 @@ const SearchBooks = () => {
         </Container>
       </Jumbotron>
 
-      <Container>
-        <h2>
-          {searchedBooks.length
-            ? `Viewing ${searchedBooks.length} results:`
-            : 'Search for a book to begin'}
-        </h2>
-        <CardColumns>
-          {searchedBooks.map((book) => {
-            return (
-              <Card key={book.bookId} border='dark'>
-                {book.image ? (
-                  <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' style={{height: "500px", width: "100%", objectFit: "cover", objectPosition: "top", overflow: "scroll"}}/>
-                ) : null}
-                <Card.Body>
-                  <Card.Title>{book.title}</Card.Title>
-                  <p className='small'>Authors: {book.authors}</p>
-                  <Card.Text style={{ height: "500px", overflow: "scroll"}}>{book.description}</Card.Text>
-                  {Auth.loggedIn() && (
-                    <Button
-                      disabled={savedBookIds?.some((savedBookId) => savedBookId === book.bookId)}
-                      className='btn-block btn-info'
-                      onClick={() => handleSaveBook(book.bookId)}>
-                      {savedBookIds?.some((savedBookId) => savedBookId === book.bookId)
-                        ? 'Book Already Saved!'
-                        : 'Save this Book!'}
-                    </Button>
-                  )}
-                </Card.Body>
-              </Card>
-            );
-          })}
-        </CardColumns>
-      </Container>
+      <BookList searchedBooks={searchedBooks} savedBookIds={savedBookIds} handleSaveBook={handleSaveBook} source={"search"}/>
     </>
   );
 };

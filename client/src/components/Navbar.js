@@ -10,23 +10,25 @@ const AppNavbar = () => {
   // set modal display state
   const [showModal, setShowModal] = useState(false);
 
+  // const [expanded, setExpanded] = useState(false);
+
   return (
     <>
-      <Navbar bg='dark' variant='dark' expand='lg'>
+      <Navbar collapseOnSelect bg='dark' variant='dark' expand='lg'>
         <Container fluid>
           <Navbar.Brand as={Link} to='/'>
             Google Books Search
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls='navbar' />
+          <Navbar.Toggle aria-controls='navbar'/>
           <Navbar.Collapse id='navbar'>
             <Nav className='ml-auto'>
-              <Nav.Link as={Link} to='/'>
+              <Nav.Link as={Link} to='/' eventKey="1">
                 Search For Books
               </Nav.Link>
               {/* if user is logged in show saved books and logout */}
               {Auth.loggedIn() ? (
                 <>
-                  <Nav.Link as={Link} to='/saved'>
+                  <Nav.Link as={Link} to='/saved' eventKey="2">
                     See Your Books
                   </Nav.Link>
                   <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
