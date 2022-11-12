@@ -1,17 +1,12 @@
 // see SignupForm.js for comments
 import React, { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
-
-// section LoginForm.js: Replace the loginUser() functionality imported from the API file with the LOGIN_USER mutation functionality.
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../utils/mutations";
-
 import Auth from "../utils/auth";
 
 const LoginForm = (props) => {
   const [userFormData, setUserFormData] = useState({ email: "", password: "" });
-  //section added useMutation
-  // const [login, { error, data }] = useMutation(LOGIN_USER); //generated a webpack eslint error message
   const [login, { error }] = useMutation(LOGIN_USER);
 
   const [validated] = useState(false);
@@ -32,7 +27,6 @@ const LoginForm = (props) => {
       event.stopPropagation();
     }
 
-    //section
     try {
       const { data } = await login({
         variables: { ...userFormData },
@@ -92,7 +86,7 @@ const LoginForm = (props) => {
         </Button>
       </Form>
 
-      {/* section: show alert if server response is bad */}
+      {/* show alert if server response is bad */}
       {error && (
         <Alert
           dismissible

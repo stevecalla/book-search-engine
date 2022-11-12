@@ -1,18 +1,9 @@
 import React from "react";
-import {
-  Jumbotron,
-  Container,
-  CardColumns,
-  Card,
-  Button,
-} from "react-bootstrap";
+import { Jumbotron, Container } from "react-bootstrap";
 import BookList from "../components/BookListSaved";
-
 import { getUserId } from "../utils/getUserId"; //get user id from jwt token
-
 import { useQuery } from "@apollo/client";
 import { QUERY_ME, QUERY_TEST } from "../utils/queries";
-
 import { REMOVE_BOOK } from "../utils/mutations";
 import { useMutation } from "@apollo/client";
 import { removeBookId } from "../utils/localStorage";
@@ -35,9 +26,6 @@ const SavedBooks = () => {
   if (loading) {
     return <div>Loading...</div>;
   } else if (userId) {
-    //section is this if statement necessary? if userId is valid from token then
-    // userData = data;
-    console.log(data);
     savedBooks = data.me.savedBooks;
 
     // if local storage doesn't contain saved books, then set
