@@ -83,6 +83,22 @@ const SavedBooks = () => {
                   <Button className='btn-block btn-danger' onClick={() => handleDeleteBook(book.bookId)}>
                     Delete this Book!
                   </Button>
+                  <div className="d-flex justify-content-between">
+                    <Button 
+                      className="btn-block btn-info mt-1 mr-1" 
+                      size="sm" 
+                      target="_blank"
+                      href={book.infoLink}
+                      >Google Info
+                    </Button>
+                    <Button 
+                      className="btn-block btn-info mt-1 ml-1" 
+                      size="sm" 
+                      target="_blank"
+                      href={book.previewLink}
+                      >Google Preview
+                    </Button>
+                  </div>
                 </Card.Body>
               </Card>
             );
