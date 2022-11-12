@@ -3,7 +3,7 @@ import {
   Container,
   Button,
   Card,
-  CardColumns,
+  Row
 } from "react-bootstrap";
 import Auth from "../utils/auth";
 
@@ -21,19 +21,18 @@ const BookListSearch = ({
             ? `Viewing ${searchedBooks.length} results:`
             : "Search for a book to begin"}
         </h2>
-        <CardColumns>
+        <Row xs={1} md={2} lg={2} xl={3} className="p-2 g-2">
           {searchedBooks.map((book) => {
             return (
-              <Card key={book.bookId} border="dark">
+              <Card key={book.bookId} border="dark" className='p-1'>
                 {book.image ? (
                   <Card.Img
                     src={book.image}
                     alt={`The cover for ${book.title}`}
                     variant="top"
                     style={{
-                      height: "500px",
+                      height: "475px",
                       width: "100%",
-                      objectFit: "cover",
                       objectPosition: "top",
                       overflow: "scroll",
                     }}
@@ -45,7 +44,7 @@ const BookListSearch = ({
                   <p className="small mt-0">
                     Published Date: {book.publishedDate}
                   </p>
-                  <Card.Text style={{ height: "500px", overflow: "scroll" }}>
+                  <Card.Text style={{ height: "300px", overflow: "scroll" }}>
                     {book.description}
                   </Card.Text>
                   {Auth.loggedIn() && (
@@ -85,7 +84,7 @@ const BookListSearch = ({
               </Card>
             );
           })}
-        </CardColumns>
+        </Row>
       </Container>
     </>
   );

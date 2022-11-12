@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Button, Card, CardColumns } from "react-bootstrap";
+import { Container, Button, Card, Row } from "react-bootstrap";
 
 const BookListSaved = ({ savedBooks, handleDeleteBook, source }) => {
   return (
@@ -12,17 +12,17 @@ const BookListSaved = ({ savedBooks, handleDeleteBook, source }) => {
               }:`
             : "You have no saved books!"}
         </h2>
-        <CardColumns>
+        <Row xs={1} md={2} lg={2} xl={3} className="p-2 g-2">
           {savedBooks.map((book) => {
             return (
-              <Card key={book.bookId} border="dark">
+              <Card key={book.bookId} border="dark" className='p-1'>
                 {book.image ? (
                   <Card.Img
                     src={book.image}
                     alt={`The cover for ${book.title}`}
                     variant="top"
                     style={{
-                      height: "500px",
+                      height: "475px",
                       width: "100%",
                       objectFit: "cover",
                       objectPosition: "top",
@@ -67,7 +67,7 @@ const BookListSaved = ({ savedBooks, handleDeleteBook, source }) => {
               </Card>
             );
           })}
-        </CardColumns>
+        </Row>
       </Container>
     </>
   );
