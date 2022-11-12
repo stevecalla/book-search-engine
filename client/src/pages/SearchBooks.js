@@ -57,7 +57,7 @@ const SearchBooks = () => {
         infoLink: book.infoLink || "No info link",
       }));
 
-      // console.log(bookData);
+      console.log(bookData);
 
       setSearchedBooks(bookData);
       setSearchInput('');
@@ -102,21 +102,23 @@ const SearchBooks = () => {
           <h1>Search for Books!</h1>
           <Form onSubmit={handleFormSubmit}>
             <Form.Row>
-              <Col xs={12} md={8}>
                 <Form.Control
                   name='searchInput'
+                  style={{width: "65%"}}
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
                   type='text'
                   size='lg'
                   placeholder='Search for a book'
                 />
-              </Col>
-              <Col xs={12} md={4}>
-                <Button type='submit' variant='success' size='lg'>
-                  Submit Search
+                <Button 
+                  type='submit' 
+                  variant='success'
+                  className='ml-1'
+                  style={{width: "30%"}}
+                  size='lg'>
+                  Search
                 </Button>
-              </Col>
             </Form.Row>
           </Form>
         </Container>
