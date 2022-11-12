@@ -59,8 +59,6 @@ const SearchBooks = () => {
         infoLink: book.infoLink || "No info link",
       }));
 
-      console.log(bookData);
-
       setSearchedBooks(bookData);
       setSearchInput("");
     } catch (err) {
@@ -77,8 +75,6 @@ const SearchBooks = () => {
   const handleSaveBook = async (bookId) => {
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
-
-    console.log(bookToSave);
 
     try {
       const { data } = await addBook({

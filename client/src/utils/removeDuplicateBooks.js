@@ -22,9 +22,5 @@ export const removeDuplicateBooks = (items) => {
     uniqueBooks[i].id = uniqueBookIds[i];
   }
 
-  // console.log({duplicateBookIds});
-  // console.log({uniqueBookIds});
-  // console.log({uniqueBooks});
-
   return uniqueBooks;
 };
