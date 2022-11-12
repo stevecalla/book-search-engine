@@ -3,10 +3,9 @@ import React from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
 
 //section
-import Auth from '../utils/auth';
+import { getUserId } from '../utils/getUserId'; //get user id from jwt token
 
 // section Remove the useEffect() Hook that sets the state for UserData.
-import decode from 'jwt-decode';
 import { useQuery } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
 
@@ -15,13 +14,11 @@ import { useMutation } from '@apollo/client';
 import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
+  // get userId from jwt token to use in query/mutation
+  let userId = getUserId();
+
   // setup remove book graphql mutation
   const [removeBook] = useMutation(REMOVE_BOOK);
-  
-  // get user id from token
-  const token = Auth.loggedIn() ? Auth.getToken() : null;
-  const user = token && decode(token);
-  const userId = token && user.data._id;
   
   // get user saved book info to render to page
   let savedBooks = [];
@@ -33,7 +30,7 @@ const SavedBooks = () => {
   // using loading paramater to wait for response from useQuery QUERY_ME
   if (loading) {
     return <div>Loading...</div>;
-  } else if (token) {
+  } else if (userId) {
     // userData = data;
     console.log(data)
     savedBooks = data.me[0].savedBooks;

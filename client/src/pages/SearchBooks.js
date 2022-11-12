@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, Col, Form, Button, Card, CardColumns } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
+import { getUserId } from '../utils/getUserId';
 
 import { ADD_BOOK } from '../utils/mutations';
 import { useMutation } from '@apollo/client';
 import { searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
-import decode from 'jwt-decode';
 
 const SearchBooks = () => {
   // create state for holding returned google api data
@@ -62,9 +62,14 @@ const SearchBooks = () => {
   };
 
   const [addBook] = useMutation(ADD_BOOK);
-  const token = Auth.loggedIn() ? Auth.getToken() : null;
-  const user = token && decode(token);
-  const userId = token && user.data._id;
+
+  // get userId from jwt token to use in query/mutation
+  let userId = getUserId();
+
+  // const token = Auth.loggedIn() ? Auth.getToken() : null;
+  // const user = token && decode(token);
+  // const userId = token && user.data._id;
+
   // create function to handle saving a book to our database
   const handleSaveBook = async (bookId) => {
     // find the book in `searchedBooks` state by the matching id
