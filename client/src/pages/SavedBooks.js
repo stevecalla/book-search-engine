@@ -16,8 +16,8 @@ import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
   const token = Auth.loggedIn() ? Auth.getToken() : null;
-  const user = decode(token);
-  const userId = user.data._id;
+  const user = token && decode(token);
+  const userId = token && user.data._id;
 
   const { loading, data } = useQuery(QUERY_ME, {
     // variables: { id: '636c6732dd1ce92e610cd132' },
@@ -47,7 +47,7 @@ const SavedBooks = () => {
 
   if (loading) {
     return <div>Loading...</div>;
-  } else {
+  } else if (token) {
     // userData = data;
     console.log(data)
     savedBooks = data.me[0].savedBooks;

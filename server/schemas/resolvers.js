@@ -53,7 +53,7 @@ const resolvers = {
 
       return { token, user };
     },
-    addBook: async (parent, { _id, bookId, authors, description, image, title }, context) => {
+    addBook: async (parent, { _id, bookId, authors, description, image, title, infoLink, previewLink, publishedDate }, context) => {
       // if (context.user) {
         return User.findOneAndUpdate(
           { _id },
@@ -64,6 +64,9 @@ const resolvers = {
                 description,
                 image,
                 title,
+                infoLink,
+                previewLink,
+                publishedDate
               },
             },
           },

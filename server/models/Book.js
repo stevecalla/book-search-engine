@@ -19,13 +19,19 @@ const bookSchema = new Schema({
   image: {
     type: String,
   },
-  link: {
-    type: String,
-  },
   title: {
     type: String,
     required: true,
   },
+  infoLink: {
+    type: String
+  },
+  previewLink: {
+    type: String
+  },
+  publishedDate: {
+    type: String
+  }
 });
 
 module.exports = bookSchema;

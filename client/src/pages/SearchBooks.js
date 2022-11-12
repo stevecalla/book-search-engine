@@ -45,9 +45,14 @@ const SearchBooks = () => {
         bookId: book.id,
         authors: book.volumeInfo.authors || ['No author to display'],
         title: book.volumeInfo.title,
-        description: book.volumeInfo.description,
-        image: book.volumeInfo.imageLinks?.thumbnail || "https://placehold.jp/16/0000FF/ffffff/300x500.png?text=No%20Image%20Available"
+        description: book.volumeInfo.description || "No description available.",
+        image: book.volumeInfo.imageLinks?.thumbnail || "https://placehold.jp/16/0000FF/ffffff/300x500.png?text=No%20Image%20Available",
+        publishedDate: book.volumeInfo.publishedDate || "No publish date",
+        previewLink: book.volumeInfo.previewLink || "No preview link",
+        infoLink: book.volumeInfo.infoLink || "No info link",
       }));
+
+      console.log(bookData);
 
       setSearchedBooks(bookData);
       setSearchInput('');
@@ -64,6 +69,8 @@ const SearchBooks = () => {
   const handleSaveBook = async (bookId) => {
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
+
+    console.log(bookToSave);
 
     try {
       const { data } = await addBook({
