@@ -1,16 +1,18 @@
 import React from "react";
 import { Container, Button, Card, Row } from "react-bootstrap";
+import Auth from "../utils/auth";
 
 const BookListSaved = ({ savedBooks, handleDeleteBook, source }) => {
+
+  console.log(Auth.loggedIn());
+  console.log(savedBooks.length);
+
   return (
     <>
       <Container>
         <h2>
-          {savedBooks.length
-            ? `Viewing ${savedBooks.length} saved ${
-                savedBooks.length === 1 ? "book" : "books"
-              }:`
-            : "You have no saved books!"}
+          {Auth.loggedIn() === false ? `Your login session has expired. Please signin again`
+           : savedBooks.length ? `Viewing ${savedBooks.length} saved ${savedBooks.length === 1 ? "book" : "books"}:` : `You have no saved books!`}
         </h2>
         <Row xs={1} md={2} lg={2} xl={3} className="p-2 g-2">
           {savedBooks.map((book) => {
