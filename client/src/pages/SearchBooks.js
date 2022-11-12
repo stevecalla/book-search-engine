@@ -130,8 +130,9 @@ const SearchBooks = () => {
                   <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' style={{height: "500px", width: "100%", objectFit: "cover", objectPosition: "top", overflow: "scroll"}}/>
                 ) : null}
                 <Card.Body>
-                  <Card.Title>{book.title}</Card.Title>
-                  <p className='small'>Authors: {book.authors}</p>
+                  <Card.Title className='mb-0'>{book.title}</Card.Title>
+                  <p className='small mb-0'>Authors: {book.authors}</p>
+                  <p className='small mt-0'>Published Date: {book.publishedDate}</p>
                   <Card.Text style={{ height: "500px", overflow: "scroll"}}>{book.description}</Card.Text>
                   {Auth.loggedIn() && (
                     <Button
