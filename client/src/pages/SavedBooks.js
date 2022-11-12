@@ -7,6 +7,7 @@ import { QUERY_ME, QUERY_TEST } from "../utils/queries";
 import { REMOVE_BOOK } from "../utils/mutations";
 import { useMutation } from "@apollo/client";
 import { removeBookId } from "../utils/localStorage";
+import Auth from "../utils/auth";
 
 const SavedBooks = () => {
   // get userId from jwt token to use in query/mutation
@@ -15,27 +16,30 @@ const SavedBooks = () => {
   // setup remove book graphql mutation
   const [removeBook] = useMutation(REMOVE_BOOK);
 
-  // get all user saved book info to render to page
   let savedBooks = [];
-  const { loading, data } = useQuery(QUERY_ME, {
-    // variables: { id: '636f2bdf0a1a38271a7e9b8a' },
-    variables: { id: userId },
-  });
+  // get all user saved book info to render to page
+  if (Auth.loggedIn()) {
+    const { loading, data } = useQuery(QUERY_ME, {
+      // variables: { id: '636f2bdf0a1a38271a7e9b8a' },
+      variables: { id: userId },
+    });
 
-  // using loading paramater to wait for response from useQuery QUERY_ME
-  if (loading) {
-    return <div>Loading...</div>;
-  } else if (userId) {
-    savedBooks = data.me.savedBooks;
-
-    // if local storage doesn't contain saved books, then set
-    if (!localStorage.getItem("saved_books") && savedBooks.length > 0) {
-      localStorage.setItem(
-        "saved_books",
-        JSON.stringify(savedBooks.map((element) => element.bookId))
-      );
+    // using loading paramater to wait for response from useQuery QUERY_ME
+    if (loading) {
+      return <div>Loading...</div>;
+    } else if (userId) {
+      savedBooks = data.me.savedBooks;
+  
+      // if local storage doesn't contain saved books, then set
+      if (!localStorage.getItem("saved_books") && savedBooks.length > 0) {
+        localStorage.setItem(
+          "saved_books",
+          JSON.stringify(savedBooks.map((element) => element.bookId))
+        );
+      }
     }
   }
+
 
   // delete book
   const handleDeleteBook = async (bookId) => {
@@ -63,11 +67,13 @@ const SavedBooks = () => {
         </Container>
       </Jumbotron>
 
-      <BookList
+      {/* {Auth.loggedIn() &&  */}
+        <BookList
         savedBooks={savedBooks}
         handleDeleteBook={handleDeleteBook}
         source={"saved"}
       />
+      {/* } */}
     </>
   );
 };

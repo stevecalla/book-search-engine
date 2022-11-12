@@ -49,6 +49,14 @@ class AuthService {
     // this will reload the page and reset the state of the application
     window.location.assign("/");
   }
+
+  clearStorage() {
+    // Clear user token and profile data from localStorage
+    localStorage.removeItem("id_token");
+    // Clear saved books from local storage (if user signs in with a different id)
+    // When token expires this happens as well
+    localStorage.removeItem("saved_books");
+  }
 }
 
 export default new AuthService();
