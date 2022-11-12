@@ -22,18 +22,15 @@ const AppNavbar = () => {
               {/* if user is logged in show saved books & logout nav links else show login/signup modal */}
               {Auth.loggedIn() ? (
                 <>
-                  {/* <Nav.Link onClick={Auth.loggedIn() ? () => window.location.assign("/") : () => (
-                    setShowModal(true),
-                    Auth.clearStorage()
-                  )}> */}
                   <Nav.Link as={Link} to="/" eventKey="1">
                     Search For Books
                   </Nav.Link>
-                  {/* <Nav.Link onClick={Auth.loggedIn() ? () => window.location.assign("/saved") : () => Auth.clearStorage()}> */}
                   <Nav.Link as={Link} to="/saved" eventKey="2">
                     See Your Books
                   </Nav.Link>
-                  <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
+                  <Nav.Link onClick={Auth.logout}>
+                    Logout
+                  </Nav.Link>
                 </>
               ) : (
                 <Nav.Link onClick={() => setShowModal(true)}>
@@ -68,10 +65,10 @@ const AppNavbar = () => {
           <Modal.Body>
             <Tab.Content>
               <Tab.Pane eventKey="login">
-                <LoginForm  />
+                <LoginForm />
               </Tab.Pane>
               <Tab.Pane eventKey="signup">
-                <SignUpForm  />
+                <SignUpForm />
               </Tab.Pane>
             </Tab.Content>
           </Modal.Body>
