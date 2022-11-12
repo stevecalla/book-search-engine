@@ -26,7 +26,7 @@ const resolvers = {
     //   // throw new AuthenticationError('You need to be logged in!');
     // },
     me: async (parent, { _id }, context) => {
-        return User.find({ _id }).populate('books');
+        return User.findById({ _id }).populate('books');
     },
   },
 

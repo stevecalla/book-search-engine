@@ -5,7 +5,7 @@ import BookList from '../components/BookListSaved';
 import { getUserId  } from '../utils/getUserId'; //get user id from jwt token
 
 import { useQuery } from '@apollo/client';
-import { QUERY_ME } from '../utils/queries';
+import { QUERY_ME, QUERY_TEST } from '../utils/queries';
 
 import { REMOVE_BOOK } from '../utils/mutations';
 import { useMutation } from '@apollo/client';
@@ -21,7 +21,7 @@ const SavedBooks = () => {
   // get all user saved book info to render to page
   let savedBooks = [];
   const { loading, data } = useQuery(QUERY_ME, {
-    // variables: { id: '636c6732dd1ce92e610cd132' },
+    // variables: { id: '636f2bdf0a1a38271a7e9b8a' },
     variables: { id: userId },
   });
 
@@ -31,7 +31,7 @@ const SavedBooks = () => {
   } else if (userId) { //section is this if statement necessary? if userId is valid from token then 
     // userData = data;
     console.log(data)
-    savedBooks = data.me[0].savedBooks;
+    savedBooks = data.me.savedBooks;
 
     // if local storage doesn't contain saved books, then set
     if (!localStorage.getItem('saved_books') && savedBooks.length > 0) {
