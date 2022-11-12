@@ -1,5 +1,5 @@
-import Auth from '../utils/auth';
-import decode from 'jwt-decode';
+import Auth from "../utils/auth";
+import decode from "jwt-decode";
 
 export const getUserId = () => {
   const token = Auth.loggedIn() ? Auth.getToken() : null;

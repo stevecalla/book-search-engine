@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { Jumbotron, Container, Col, Form, Button } from 'react-bootstrap';
-import BookList from '../components/BookListSearch';
+import React, { useState, useEffect } from "react";
+import { Jumbotron, Container, Col, Form, Button } from "react-bootstrap";
+import BookList from "../components/BookListSearch";
 
-import { getUserId } from '../utils/getUserId';  //get user id from jwt token for db queries/mutations
+import { getUserId } from "../utils/getUserId"; //get user id from jwt token for db queries/mutations
 
-import { ADD_BOOK } from '../utils/mutations';
-import { useMutation } from '@apollo/client';
-import { searchGoogleBooks } from '../utils/API';
-import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
-import { removeDuplicateBooks } from '../utils/removeDuplicateBooks';
+import { ADD_BOOK } from "../utils/mutations";
+import { useMutation } from "@apollo/client";
+import { searchGoogleBooks } from "../utils/API";
+import { saveBookIds, getSavedBookIds } from "../utils/localStorage";
+import { removeDuplicateBooks } from "../utils/removeDuplicateBooks";
 
 const SearchBooks = () => {
   // create state for holding returned google api data
   const [searchedBooks, setSearchedBooks] = useState([]);
   // create state for holding our search field data
-  const [searchInput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState("");
 
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
@@ -37,7 +37,7 @@ const SearchBooks = () => {
       const response = await searchGoogleBooks(searchInput);
 
       if (!response.ok) {
-        throw new Error('something went wrong!');
+        throw new Error("something went wrong!");
       }
 
       const { items } = await response.json();
@@ -48,10 +48,12 @@ const SearchBooks = () => {
 
       const bookData = uniqueBooks.map((book) => ({
         bookId: book.id,
-        authors: book.authors || ['No author to display'],
+        authors: book.authors || ["No author to display"],
         title: book.title,
         description: book.description || "No description available.",
-        image: book.imageLinks?.thumbnail || "https://placehold.jp/16/0000FF/ffffff/300x500.png?text=No%20Image%20Available",
+        image:
+          book.imageLinks?.thumbnail ||
+          "https://placehold.jp/16/0000FF/ffffff/300x500.png?text=No%20Image%20Available",
         publishedDate: book.publishedDate || "No publish date",
         previewLink: book.previewLink || "No preview link",
         infoLink: book.infoLink || "No info link",
@@ -60,7 +62,7 @@ const SearchBooks = () => {
       console.log(bookData);
 
       setSearchedBooks(bookData);
-      setSearchInput('');
+      setSearchInput("");
     } catch (err) {
       console.error(err);
     }
@@ -82,8 +84,8 @@ const SearchBooks = () => {
       const { data } = await addBook({
         variables: {
           id: userId,
-          ...bookToSave
-        }
+          ...bookToSave,
+        },
       });
 
       console.log(data); //to eliminate console warning
@@ -97,37 +99,42 @@ const SearchBooks = () => {
 
   return (
     <>
-      <Jumbotron fluid className='text-light bg-dark'>
+      <Jumbotron fluid className="text-light bg-dark">
         <Container>
           <h1>Search for Books!</h1>
           <Form onSubmit={handleFormSubmit}>
             <Form.Row>
-                <Form.Control
-                  name='searchInput'
-                  style={{width: "65%"}}
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
-                  type='text'
-                  size='lg'
-                  placeholder='Search for a book'
-                />
-                <Button 
-                  type='submit' 
-                  variant='success'
-                  className='ml-1'
-                  style={{width: "30%"}}
-                  size='lg'>
-                  Search
-                </Button>
+              <Form.Control
+                name="searchInput"
+                style={{ width: "65%" }}
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                type="text"
+                size="lg"
+                placeholder="Search for a book"
+              />
+              <Button
+                type="submit"
+                variant="success"
+                className="ml-1"
+                style={{ width: "30%" }}
+                size="lg"
+              >
+                Search
+              </Button>
             </Form.Row>
           </Form>
         </Container>
       </Jumbotron>
 
-      <BookList searchedBooks={searchedBooks} savedBookIds={savedBookIds} handleSaveBook={handleSaveBook} source={"search"}/>
+      <BookList
+        searchedBooks={searchedBooks}
+        savedBookIds={savedBookIds}
+        handleSaveBook={handleSaveBook}
+        source={"search"}
+      />
     </>
   );
 };
 
 export default SearchBooks;
-
