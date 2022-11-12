@@ -30,6 +30,12 @@
       "react-app/jest"
     ]
   },
+  "eslintConfig": {
+    "env": {
+        "browser": true,
+        "node": true
+    }
+  },
   "browserslist": {
     "production": [
       ">0.2%",
