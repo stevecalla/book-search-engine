@@ -8,6 +8,7 @@ import { ADD_BOOK } from '../utils/mutations';
 import { useMutation } from '@apollo/client';
 import { searchGoogleBooks } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
+import { removeDuplicateBooks } from '../utils/removeDuplicateBooks';
 
 const SearchBooks = () => {
   // create state for holding returned google api data
@@ -41,15 +42,19 @@ const SearchBooks = () => {
 
       const { items } = await response.json();
 
-      const bookData = items.map((book) => ({
+      // results in "items" can return duplicate book id; function below removes duplicates
+      // when duplicate entries exist reeact returns an error message in the console b/c it can't uniquely identify each item
+      let uniqueBooks = removeDuplicateBooks(items);
+
+      const bookData = uniqueBooks.map((book) => ({
         bookId: book.id,
-        authors: book.volumeInfo.authors || ['No author to display'],
-        title: book.volumeInfo.title,
-        description: book.volumeInfo.description || "No description available.",
-        image: book.volumeInfo.imageLinks?.thumbnail || "https://placehold.jp/16/0000FF/ffffff/300x500.png?text=No%20Image%20Available",
-        publishedDate: book.volumeInfo.publishedDate || "No publish date",
-        previewLink: book.volumeInfo.previewLink || "No preview link",
-        infoLink: book.volumeInfo.infoLink || "No info link",
+        authors: book.authors || ['No author to display'],
+        title: book.title,
+        description: book.description || "No description available.",
+        image: book.imageLinks?.thumbnail || "https://placehold.jp/16/0000FF/ffffff/300x500.png?text=No%20Image%20Available",
+        publishedDate: book.publishedDate || "No publish date",
+        previewLink: book.previewLink || "No preview link",
+        infoLink: book.infoLink || "No info link",
       }));
 
       console.log(bookData);
