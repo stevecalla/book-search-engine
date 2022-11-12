@@ -48,14 +48,14 @@ This app includes a variety of API routes (see list below). In addition, the fol
 10. `Heroku` deployment.
 
 ## Future Enhancements: 
-1. Breakdown into smaller components for readability and reduce duplication (i.e. both the search and save book componennts return a similar bootstrap container that renders books)
-2. Enhance to a PWA to work both on- and off-line, 
-3. 
-4. 
-
-9. `Share` functionality is included so the user can quickly sent an email to contacts with my information.
-12. Fully `mobile responsive` including a nav bar transition to a hamburger menu.
-4. `Footer` component includes a share icon that allows the user to share information (my resume, Linkedin & GitHub profile) via the natively available `navigator.share` api. If `navigator.share` is not available on the users browser (such as chrome on mac) then a bootstrap model is available which allows the user to email the info.
+1. Breakdown code into `smaller components` for readability, maintainability and reduce duplication.
+2. Enhance to a `PWA` to work both on- and off-line.
+3. Enhance search options and google api with more `customized google search results` (newest, max results, author et al).
+4. Provide user with more advance `self-select search options` (e.g. search by title, author, newest, number of results).
+5. Update `password, username and email verification standards` and functionality.
+6. Upgrade `login` and `signup` to include `tooltip & required field` messages.
+7. Add `Share` functionality so the user can share a book with others via email and/or text message.
+8. Upgrade backend to use `Apollo cache` rather than local storage.
 
 ## Technology
 
@@ -98,4 +98,4 @@ Contributor Covenant Code of Conduct
 ## License 
 
 [![License:  MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-This project is licensed under the terms of the <span style="color:red">The MIT License</span>. Please click on the li
+This project is licensed under the terms of the <span style="color:red">The MIT License</span>. Please click on the license badge for more information.
