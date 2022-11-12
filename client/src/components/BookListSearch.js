@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Container,
-  Button,
-  Card,
-  Row
-} from "react-bootstrap";
+import { Container, Button, Card, Row } from "react-bootstrap";
 import Auth from "../utils/auth";
 
 const BookListSearch = ({
@@ -24,7 +19,7 @@ const BookListSearch = ({
         <Row xs={1} md={2} lg={2} xl={3} className="p-2 g-2">
           {searchedBooks.map((book) => {
             return (
-              <Card key={book.bookId} border="dark" className='p-1'>
+              <Card key={book.bookId} border="dark" className="p-1">
                 {book.image ? (
                   <Card.Img
                     src={book.image}

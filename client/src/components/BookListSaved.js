@@ -15,7 +15,7 @@ const BookListSaved = ({ savedBooks, handleDeleteBook, source }) => {
         <Row xs={1} md={2} lg={2} xl={3} className="p-2 g-2">
           {savedBooks.map((book) => {
             return (
-              <Card key={book.bookId} border="dark" className='p-1'>
+              <Card key={book.bookId} border="dark" className="p-1">
                 {book.image ? (
                   <Card.Img
                     src={book.image}
@@ -56,7 +56,7 @@ const BookListSaved = ({ savedBooks, handleDeleteBook, source }) => {
                       Google Preview
                     </Button>
                   </div>
-                  
+
                   <Button
                     className="btn-block btn-danger mt-2 btn-sm"
                     onClick={() => handleDeleteBook(book.bookId)}

@@ -122,7 +122,8 @@ const SignupForm = () => {
       </Form>
 
       {/* section: show alert if server response is bad */}
-      {error && <Alert
+      {error && (
+        <Alert
           dismissible
           onClose={() => setShowAlert(false)}
           show={showAlert}
@@ -131,7 +132,7 @@ const SignupForm = () => {
         >
           Something went wrong with your signup!
         </Alert>
-      }
+      )}
     </>
   );
 };

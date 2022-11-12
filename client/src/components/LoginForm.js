@@ -93,7 +93,8 @@ const LoginForm = (props) => {
       </Form>
 
       {/* section: show alert if server response is bad */}
-      {error && <Alert
+      {error && (
+        <Alert
           dismissible
           onClose={() => setShowAlert(false)}
           show={showAlert}
@@ -102,7 +103,7 @@ const LoginForm = (props) => {
         >
           Something went wrong with your login credentials!
         </Alert>
-      }
+      )}
     </>
   );
 };
